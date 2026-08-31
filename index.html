@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Lead Score — score four signals from 0 to 100 and read them as concentric radial rings." />
+    <title>Lead Score</title>
+    <script>
+      // Stamp the resolved theme before first paint so there is no flash.
+      (function () {
+        try {
+          var saved = localStorage.getItem('lead-score:theme') || 'system'
+          var dark = saved === 'dark' || (saved === 'system' &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light'
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light'
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
