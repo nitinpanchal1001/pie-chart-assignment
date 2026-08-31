@@ -35,8 +35,8 @@ no `dark:` variant on a single element.
 
 Three things stay hand-written in `@layer components`, because they have no
 utility equivalent: the range input (styled entirely through `::-webkit-slider-thumb`
-and friends) and the three `.rings__*` type classes, which `download.ts` re-declares
-inside the exported SVG so the file stands on its own without a stylesheet.
+and friends) and the three `.rings__*` type classes that set the centre figure's
+typography inside the SVG.
 
 ## How to read the chart
 
@@ -99,7 +99,6 @@ src/
     RadialRings.tsx          the SVG chart: geometry, hover, focus, centre figure
     ScoreControls.tsx        renameable label + slider + number input per signal
     Legend.tsx               identity channel, always on
-    TableView.tsx            accessible twin
     ThemeToggle.tsx          light / dark / auto
   styles/global.css          tokens, @theme mapping, the few non-utility rules
   lib/
@@ -108,7 +107,6 @@ src/
     metrics.ts               model, clamping, composite, shares
     useLeadScore.ts          state + localStorage, hardened against stale payloads
     useTheme.ts              preference → resolved mode, stamped on <html>
-    download.ts              self-contained SVG / PNG export
 ```
 
 Values and the theme choice persist in `localStorage`; every read is guarded, so

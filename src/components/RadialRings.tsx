@@ -66,7 +66,6 @@ interface Props {
   metrics: Metric[]
   mode: Mode
   composite: number
-  svgRef?: React.Ref<SVGSVGElement>
 }
 
 interface Hover {
@@ -75,7 +74,7 @@ interface Hover {
   y: number
 }
 
-export default function RadialRings({ metrics, mode, composite, svgRef }: Props) {
+export default function RadialRings({ metrics, mode, composite }: Props) {
   const [hover, setHover] = useState<Hover | null>(null)
   const [focused, setFocused] = useState<MetricKey | null>(null)
   const titleId = useId()
@@ -96,7 +95,6 @@ export default function RadialRings({ metrics, mode, composite, svgRef }: Props)
     // the SVG scales with it, the hero figure included, since the viewBox is fixed.
     <div className="relative mx-auto mt-[18px] mb-1.5 w-[min(100%,620px,56vh)] max-[940px]:w-[min(100%,620px)]">
       <svg
-        ref={svgRef}
         className="block h-auto w-full overflow-visible"
         viewBox={`0 0 ${SIZE} ${SIZE}`}
         role="img"

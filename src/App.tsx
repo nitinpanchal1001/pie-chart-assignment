@@ -1,10 +1,8 @@
-import { useMemo, useRef, useState } from 'react'
+import { useMemo } from 'react'
 import Legend from './components/Legend'
 import RadialRings from './components/RadialRings'
 import ScoreControls from './components/ScoreControls'
-import TableView from './components/TableView'
 import ThemeToggle from './components/ThemeToggle'
-import { downloadPng, downloadSvg } from './lib/download'
 import { compositeScore } from './lib/metrics'
 import { BODY_COPY, BUTTON, CARD, CARD_HEAD, CARD_TITLE } from './lib/ui'
 import { useLeadScore } from './lib/useLeadScore'
@@ -13,8 +11,6 @@ import { useTheme } from './lib/useTheme'
 export default function App() {
   const { metrics, setValue, setLabel, reset, randomize } = useLeadScore()
   const { preference, mode, setPreference } = useTheme()
-  const [showTable, setShowTable] = useState(false)
-  const svgRef = useRef<SVGSVGElement>(null)
 
   const composite = useMemo(() => compositeScore(metrics), [metrics])
   const values = metrics.map((metric) => metric.value)
@@ -44,7 +40,7 @@ export default function App() {
             <h2 id="chart-heading" className={CARD_TITLE}>Score profile</h2>
           </div>
 
-          <RadialRings metrics={metrics} mode={mode} composite={composite} svgRef={svgRef} />
+          <RadialRings metrics={metrics} mode={mode} composite={composite} />
 
           <Legend metrics={metrics} mode={mode} />
 
@@ -56,23 +52,6 @@ export default function App() {
             the table.
           </p> */}
 
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
-            <button type="button" className={BUTTON} onClick={() => setShowTable((open) => !open)} aria-expanded={showTable}>
-              {showTable ? 'Hide table' : 'Show table'}
-            </button>
-            <button type="button" className={BUTTON} onClick={() => svgRef.current && downloadSvg(svgRef.current, mode)}>
-              Export SVG
-            </button>
-            <button type="button" className={BUTTON} onClick={() => svgRef.current && downloadPng(svgRef.current, mode)}>
-              Export PNG
-            </button>
-          </div>
-
-          {showTable && (
-            <div className="mt-[18px] overflow-x-auto">
-              <TableView metrics={metrics} />
-            </div>
-          )}
         </section>
 
         <section className={CARD} aria-labelledby="inputs-heading">

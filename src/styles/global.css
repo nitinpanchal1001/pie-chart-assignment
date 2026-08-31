@@ -144,9 +144,8 @@
     box-shadow: 0 0 0 1px var(--edge);
   }
 
-  /* The centre figure's type. These are real classes rather than utilities
-     because download.ts re-declares them inside the exported SVG, which has to
-     stand on its own without a stylesheet. */
+  /* The centre figure's type. Real classes rather than utilities so the SVG
+     carries its own typography rather than depending on utility class order. */
   .rings__eyebrow {
     font-size: 10px;
     font-weight: 600;
