@@ -19,6 +19,11 @@
   --track: #eceae4;
   --shadow: 0 1px 2px rgba(11, 11, 11, 0.04), 0 8px 24px -12px rgba(11, 11, 11, 0.12);
   --focus: #2a78d6;
+  /* Validation. Kept off the series palette on purpose — a rejected entry must
+     not read as one of the four signals. */
+  --danger: #c0362c;
+  --danger-edge: rgba(192, 54, 44, 0.55);
+  --danger-soft: rgba(192, 54, 44, 0.09);
 }
 
 :root[data-theme='dark'] {
@@ -34,6 +39,9 @@
   --track: #282826;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
   --focus: #3987e5;
+  --danger: #ff8279;
+  --danger-edge: rgba(255, 130, 121, 0.5);
+  --danger-soft: rgba(255, 130, 121, 0.12);
 }
 
 /* `inline` makes the utilities resolve straight to the vars above, so a theme
@@ -50,6 +58,9 @@
   --color-hairline: var(--hairline);
   --color-edge: var(--edge);
   --color-track: var(--track);
+  --color-danger: var(--danger);
+  --color-danger-edge: var(--danger-edge);
+  --color-danger-soft: var(--danger-soft);
 
   --shadow-card: var(--shadow);
 }
@@ -162,5 +173,33 @@
   .rings__unit {
     font-size: 11px;
     font-weight: 500;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Validation feedback: the field flinches once, the message rises into place.
+   Both are decoration over an already-visible colour change and an alert the
+   screen reader announces, so reduced-motion losing them costs nothing.
+--------------------------------------------------------------------------- */
+@layer components {
+  @keyframes field-nudge {
+    0%, 100% { transform: translateX(0); }
+    22% { transform: translateX(-3px); }
+    46% { transform: translateX(3px); }
+    70% { transform: translateX(-2px); }
+    88% { transform: translateX(1px); }
+  }
+
+  .field-nudge {
+    animation: field-nudge 300ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  }
+
+  @keyframes message-rise {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .message-rise {
+    animation: message-rise 240ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 }

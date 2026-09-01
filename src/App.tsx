@@ -18,7 +18,6 @@ export default function App() {
     <div className="mx-auto max-w-[1160px] px-[18px] pt-7 pb-14 min-[940px]:px-7 min-[940px]:pt-2 min-[940px]:pb-[72px] ">
       <header className="mb-7 flex flex-wrap items-center justify-between gap-6 border-b border-hairline pb-6">
         <div className="flex items-center gap-3.5">
-          {/* Three nested arcs — the chart, reduced to a monogram. */}
           <span className="relative size-[34px] flex-none" aria-hidden="true">
             <span className="absolute inset-0 rounded-full border-2 border-transparent border-t-[#2a78d6] border-r-[#2a78d6]" />
             <span className="absolute inset-[6px] rounded-full border-2 border-transparent border-t-[#eb6834]" />
@@ -32,7 +31,6 @@ export default function App() {
         <ThemeToggle preference={preference} onChange={setPreference} />
       </header>
 
-      {/* One column: the chart leads at full width, the inputs sit under it. */}
       <main className="grid grid-cols-1 gap-5">
         <section className={CARD} aria-labelledby="chart-heading">
           <div className={CARD_HEAD}>
@@ -62,10 +60,7 @@ export default function App() {
             </div>
           </div>
 
-          <p className={BODY_COPY}>
-            Rename any signal — the four placeholders are only a starting point. Values are whole
-            numbers from 0 to 100 and persist in this browser.
-          </p>
+
 
           <ScoreControls
             metrics={metrics}

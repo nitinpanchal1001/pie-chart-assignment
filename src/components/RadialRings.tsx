@@ -111,18 +111,9 @@ export default function RadialRings({ metrics, mode, composite }: Props) {
           const halfGap = halfGapFor(radius)
           const startDeg = 90 + halfGap // just left of the stem
           const sweep = 360 - 2 * halfGap // ...round to just right of it
-          const fraction = metric.value / MAX
-          const endDeg = startDeg + sweep * fraction
-
           const color = SERIES[mode][metric.key]
           const isActive = active === metric.key
           const dimmed = active !== null && !isActive
-          // Caps are always round: halfGapFor already sets each track back by the
-          // cap's overhang, so the arc's visible start lands flush on the stem's
-          // clearance line at every value, and the smallest score still reads as
-          // a rounded mark rather than a clipped sliver.
-          const arcLength = 2 * Math.PI * radius * (sweep / 360) * fraction
-          const end = polar(radius, endDeg)
           // With no track to hover, the hit area and focus outline hug the arc —
           // except at zero, where a full-length one keeps the ring reachable.
           const outlineDash = metric.value > 0 ? `${metric.value} ${MAX}` : undefined
@@ -140,7 +131,9 @@ export default function RadialRings({ metrics, mode, composite }: Props) {
               onBlur={() => setFocused(null)}
             >
               {/* pathLength normalises the track to 100 units, so the dash is
-                  literally the score and it can tween between values. */}
+                  literally the score and it can tween between values. Caps are
+                  always round — halfGapFor sets the track back by the cap's
+                  overhang, so the arc opens flush on the stem at every value. */}
               {metric.value > 0 && (
                 <path
                   className="[transition:stroke-dasharray_420ms_cubic-bezier(0.22,1,0.36,1)]"
@@ -152,12 +145,6 @@ export default function RadialRings({ metrics, mode, composite }: Props) {
                   pathLength={MAX}
                   strokeDasharray={`${metric.value} ${MAX}`}
                 />
-              )}
-              {arcLength > RING_WIDTH && (
-                // End marker: 10px dot carrying a 2px surface ring, so it stays
-                // legible where it meets its own track. It is dropped on arcs too
-                // short to outgrow it, where it would sit on top of the whole mark.
-                <circle cx={end.x} cy={end.y} r={5} fill={color} stroke={chrome.surface} strokeWidth={2} />
               )}
               {isActive && (
                 <path
