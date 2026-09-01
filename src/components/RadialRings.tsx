@@ -117,10 +117,11 @@ export default function RadialRings({ metrics, mode, composite }: Props) {
           const color = SERIES[mode][metric.key]
           const isActive = active === metric.key
           const dimmed = active !== null && !isActive
-          // A round cap only goes on once the arc is long enough that the cap
-          // cannot overstate the value.
+          // Caps are always round: halfGapFor already sets each track back by the
+          // cap's overhang, so the arc's visible start lands flush on the stem's
+          // clearance line at every value, and the smallest score still reads as
+          // a rounded mark rather than a clipped sliver.
           const arcLength = 2 * Math.PI * radius * (sweep / 360) * fraction
-          const linecap = arcLength > RING_WIDTH ? 'round' : 'butt'
           const end = polar(radius, endDeg)
           // With no track to hover, the hit area and focus outline hug the arc —
           // except at zero, where a full-length one keeps the ring reachable.
@@ -147,12 +148,12 @@ export default function RadialRings({ metrics, mode, composite }: Props) {
                   fill="none"
                   stroke={color}
                   strokeWidth={RING_WIDTH}
-                  strokeLinecap={linecap}
+                  strokeLinecap="round"
                   pathLength={MAX}
                   strokeDasharray={`${metric.value} ${MAX}`}
                 />
               )}
-              {linecap === 'round' && (
+              {arcLength > RING_WIDTH && (
                 // End marker: 10px dot carrying a 2px surface ring, so it stays
                 // legible where it meets its own track. It is dropped on arcs too
                 // short to outgrow it, where it would sit on top of the whole mark.
