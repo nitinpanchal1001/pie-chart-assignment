@@ -13,7 +13,6 @@ export default function App() {
   const { preference, mode, setPreference } = useTheme()
 
   const composite = useMemo(() => compositeScore(metrics), [metrics])
-  const values = metrics.map((metric) => metric.value)
 
   return (
     <div className="mx-auto max-w-[1160px] px-[18px] pt-7 pb-14 min-[940px]:px-7 min-[940px]:pt-2 min-[940px]:pb-[72px] ">
@@ -75,18 +74,6 @@ export default function App() {
             onLabelChange={setLabel}
           />
 
-          <dl className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-[10px] border border-hairline bg-hairline min-[520px]:grid-cols-2">
-            <div className="bg-surface px-3.5 py-3">
-              <dt className="text-[11px] font-semibold uppercase tracking-[0.05em] text-ink-3">Composite</dt>
-              <dd className="mt-0.5 text-[22px] font-semibold tracking-[-0.01em]">{composite}</dd>
-            </div>
-            <div className="bg-surface px-3.5 py-3">
-              <dt className="text-[11px] font-semibold uppercase tracking-[0.05em] text-ink-3">Spread</dt>
-              <dd className="mt-0.5 text-[22px] font-semibold tracking-[-0.01em]">
-                {Math.max(...values) - Math.min(...values)}
-              </dd>
-            </div>
-          </dl>
         </section>
       </main>
     </div>
